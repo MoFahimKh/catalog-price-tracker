@@ -1,0 +1,14 @@
+.menu-container {
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid #eff1f3;
+  position: relative;
+  height: 40px;
+}
+
+.active-tab {
+  border-bottom: 3px solid #4b40ee;
+  padding-bottom: calc(1px + 3px);
+  margin-bottom: -3px;
+  color: black;
+}
