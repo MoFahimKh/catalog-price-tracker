@@ -56,7 +56,7 @@ pnpm run dev
 
 Deployed using Netlify.
 
-- [Catalog ETH Price Tracker]()
+- [Catalog ETH Price Tracker](https://catalog-price-tracker-app.vercel.app/)
 
 ## Future Improvements
 
