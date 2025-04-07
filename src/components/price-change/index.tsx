@@ -9,6 +9,13 @@ type PriceChangeProps = {
   account: string | null;
 };
 
+const isMetaMaskInstalled = (): boolean => {
+  return (
+    typeof window !== "undefined" &&
+    typeof (window as any).ethereum !== "undefined"
+  );
+};
+
 export const EthereumPriceChange: React.FC<PriceChangeProps> = ({
   currency = "usd",
   balance,
@@ -18,6 +25,8 @@ export const EthereumPriceChange: React.FC<PriceChangeProps> = ({
   const [ethPrice, setEthPrice] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+
+  const metamaskAvailable = isMetaMaskInstalled();
 
   useEffect(() => {
     const init = async () => {
@@ -32,10 +41,28 @@ export const EthereumPriceChange: React.FC<PriceChangeProps> = ({
     init();
   }, [currency, balance]);
 
-  if (balance === null) return null; // Do not render anything until balance is available
+  if (!metamaskAvailable) {
+    return (
+      <div className={style["container"]}>
+        <div className={style["price-in-usd"]}>
+          $63,179.71 <span className={style["usd"]}>USD</span>
+        </div>
+        <div className={style["price-change"]} style={{ color: "#67BF6B" }}>
+          +$2,161.42 (3.54%)
+        </div>
+        <div
+          className={style["note"]}
+          style={{ fontSize: "12px", color: "#888", marginTop: "4px" }}
+        >
+          This is a dummy value shown because MetaMask is not installed.
+        </div>
+      </div>
+    );
+  }
+
+  if (balance === null) return null;
 
   const convertedBalance = ethPrice !== null ? balance * ethPrice : null;
-
   const balanceChange =
     convertedBalance !== null && priceChange !== null
       ? (convertedBalance * priceChange) / 100
